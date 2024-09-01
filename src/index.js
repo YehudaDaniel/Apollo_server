@@ -57,7 +57,21 @@ app.post('/sendFileToModel', (req, res) => {
 
             pythonProcess.on('close', (code) => {
                 console.log(`Python script exited with code ${code}`);
-                res.status(200).send(`File received and processed. Python script exited with code ${code}`);
+
+                // Assuming the MIDI file is saved with the same name but with a .midi extension
+                const midiFilePath = newPath.replace(path.extname(newPath), '.midi');
+
+                // Check if the MIDI file exists before sending it
+                if (fs.existsSync(midiFilePath)) {
+                    res.download(midiFilePath, (err) => {
+                        if (err) {
+                            console.error(`Error sending MIDI file: ${err}`);
+                            return res.sendStatus(500);
+                        }
+                    });
+                } else {
+                    res.status(500).send('MIDI file not generated.');
+                }
             });
         });
     });
