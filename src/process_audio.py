@@ -407,10 +407,12 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Usage: python script.py <input_audio_file>")
         sys.exit(1)
+    
     input_file = sys.argv[1]
     wav_file = convert_audio(input_file, "wav")
+    
     transcribe_audio_to_midi(
         model_path='best_model.pkl',
-        audio_path='uploads\\recording.wav',
-        output_midi_path='uploads\\recording.midi'
+        audio_path=wav_file,
+        output_midi_path=f"uploads\\{os.path.splitext(os.path.basename(wav_file))[0]}.midi"
     )
