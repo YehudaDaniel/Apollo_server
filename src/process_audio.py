@@ -355,7 +355,7 @@ class AMT():
                             offset_value = float(time_offset)
                         else:
                             offset_value = float(time_mpe)
-                if (mode_velocity != 'ignore_zero').any():
+                if mode_velocity != 'ignore_zero':
                     a_note.append({'pitch': pitch_value, 'onset': float(time_onset), 'offset': offset_value, 'velocity': velocity_value})
                 else:
                     if velocity_value > 0:
@@ -379,6 +379,7 @@ class AMT():
         midi.write(f_midi)
 
         return
+    
 def transcribe_audio_to_midi(model_path, audio_path, output_midi_path):
     # Resolve the path to the model file relative to the current script
     base_dir = os.path.dirname(__file__)  # Get the directory of the current script
@@ -389,7 +390,7 @@ def transcribe_audio_to_midi(model_path, audio_path, output_midi_path):
     amt = AMT(model_path)
     features = amt.wav2feature(audio_path)
     outputs = amt.transcript(features)
-    notes = amt.mpe2note(*outputs)
+    notes = amt.mpe2note(a_onset = outputs[0], a_offset = outputs[1], a_mpe = outputs[2], a_velocity = outputs[3])
     amt.note2midi(notes, output_midi_path)
     print(f"Transcription complete. MIDI file saved to {output_midi_path}")
 
@@ -412,7 +413,7 @@ if __name__ == '__main__':
     wav_file = convert_audio(input_file, "wav")
     
     transcribe_audio_to_midi(
-        model_path='best_model.pkl',
+        model_path='./model/best_model.pkl',
         audio_path=wav_file,
         output_midi_path=f"uploads\\{os.path.splitext(os.path.basename(wav_file))[0]}.midi"
     )
