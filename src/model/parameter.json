@@ -1,0 +1,45 @@
+{
+    "cnn": {
+        "channel": 4,
+        "kernel": 5
+    },
+    "config": "./corpus/MAESTRO-V3/dataset/config.json",
+    "d_output": "./checkpoint/MAESTRO-V3",
+    "dataset": {
+        "d_dataset": "./corpus/MAESTRO-V3/dataset",
+        "n_div_test": 1,
+        "n_div_train": 4,
+        "n_div_valid": 1,
+        "n_slice": 16
+    },
+    "parameters": 5516574,
+    "training": {
+        "batch": 8,
+        "clip": 1.0,
+        "dropout": 0.1,
+        "epoch": 20,
+        "loss_weight": {
+            "1st": 1.0,
+            "2nd": 1.0
+        },
+        "lr": 0.0001,
+        "resume_div": -1,
+        "resume_epoch": -1,
+        "seed": 1234,
+        "validation": {
+            "test": false
+        }
+    },
+    "transformer": {
+        "decoder": {
+            "n_head": 4,
+            "n_layer": 3
+        },
+        "encoder": {
+            "n_head": 4,
+            "n_layer": 3
+        },
+        "hid_dim": 256,
+        "pf_dim": 512
+    }
+}
